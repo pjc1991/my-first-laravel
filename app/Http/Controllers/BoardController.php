@@ -28,6 +28,14 @@ class BoardController extends Controller
      */
     public function create()
     {
+
+        $user = auth()->user();
+
+        // check if user is logged in
+        if (!$user) {
+            return redirect('/login');
+        }
+
         return view('board.create');
 
     }
@@ -42,6 +50,13 @@ class BoardController extends Controller
     public function store(Request $request)
     {
         //
+
+        $user = auth()->user();
+
+        // check if user is logged in
+        if (!$user) {
+            return redirect('/login');
+        }
 
         $this->validate($request, [
             'title' => 'required',
@@ -79,7 +94,22 @@ class BoardController extends Controller
     public function edit($id)
     {
         //
-        return view('board.edit', ['board' => Board::findOrFail($id)]);
+
+        $user = auth()->user();
+
+        // check if user is logged in
+        if (!$user) {
+            return redirect('/login');
+        }
+
+        // check if user is the owner of the board
+
+        $board = Board::findOrFail($id);
+
+        if ($user->id !== $board->user_id) {
+            return redirect()->route('board.index')->with('error', 'You are not authorized to edit this board');
+        }
+        return view('board.edit', ['board' => $board]);
     }
 
     /**
@@ -98,6 +128,14 @@ class BoardController extends Controller
         ]);
 
         $board = Board::findOrFail($id);
+
+        // check if user is the owner of the board
+
+        $user = auth()->user();
+
+        if ($user->id !== $board->user_id) {
+            return redirect()->route('board.index')->with('error', 'You are not authorized to edit this board');
+        }
 
         $board->update([
             'title' => $request->title,
