@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1>insert board article</h1>
+    <h1>edit board article</h1>
     <form action="{{ route('board.update', $board) }}" method="POST">
         @method('PUT')
         @csrf
