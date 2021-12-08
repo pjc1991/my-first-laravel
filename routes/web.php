@@ -34,7 +34,7 @@ Route::get('board/{board}/edit', [BoardController::class, 'edit'])->name('board.
 
 Route::put('board/{board}/update', [BoardController::class, 'update'])->name('board.update');
 
-Route::delete('board/{board}/delete', [BoardController::class, 'delete'])->name('board.delete');
+Route::delete('board/{board}', [BoardController::class, 'destroy'])->name('board.delete');
 
 
 

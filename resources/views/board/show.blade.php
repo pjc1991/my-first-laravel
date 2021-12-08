@@ -24,5 +24,22 @@
     <button>
         <a href="{{ route('board.edit', ['board' => $board->id]) }}">Edit </a>
     </button>
+    <button onclick="deleteBoard();">
+        delete
+    </button>
+    <script>
+        function deleteBoard() {
+            if(confirm('Are you sure?')) {
+                fetch('/board/{{ $board->id }}', {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                }).then(res => {
+                    window.location.href = '/board';
+                })
+            }
+        }
+    </script>
 </body>
 </html>

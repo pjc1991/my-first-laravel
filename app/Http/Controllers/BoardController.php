@@ -115,8 +115,13 @@ class BoardController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = auth()->user();
+
         $board = Board::findOrFail($id);
+
+        if ($user->id !== $board->user_id) {
+            return redirect()->route('board.index')->with('error', 'You are not authorized to delete this board');
+        }
 
         $board->delete();
     }
