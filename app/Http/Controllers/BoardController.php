@@ -79,6 +79,7 @@ class BoardController extends Controller
     public function edit($id)
     {
         //
+        return view('board.edit', ['board' => Board::findOrFail($id)]);
     }
 
     /**
@@ -91,6 +92,19 @@ class BoardController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        $board = Board::findOrFail($id);
+
+        $board->update([
+            'title' => $request->title,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('board.index')->with('success', 'Board updated successfully');
     }
 
     /**
@@ -102,5 +116,8 @@ class BoardController extends Controller
     public function destroy($id)
     {
         //
+        $board = Board::findOrFail($id);
+
+        $board->delete();
     }
 }

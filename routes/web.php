@@ -30,3 +30,11 @@ Route::get('board/create', [BoardController::class, 'create'])->name('board.crea
 
 Route::post('board/store', [BoardController::class, 'store'])->name('board.store');
 
+Route::get('board/{board}/edit', [BoardController::class, 'edit'])->name('board.edit');
+
+Route::put('board/{board}/update', [BoardController::class, 'update'])->name('board.update');
+
+Route::delete('board/{board}/delete', [BoardController::class, 'delete'])->name('board.delete');
+
+
+
